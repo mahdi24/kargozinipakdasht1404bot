@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # توکن ربات بله
 BOT_TOKEN = "1004988187:QrErRwdnhUaKHIXjFKGxQxMHe60WUrqeGnMQz3y6"
-API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
+API_URL = f"https://ble.ir/api/bot{1004988187:QrErRwdnhUaKHIXjFKGxQxMHe60WUrqeGnMQz3y6}/sendMessage"
 
 # منو دکمه‌ها و پاسخ‌ها
 menu_buttons = [
