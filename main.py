@@ -1,7 +1,7 @@
 from flask import Flask, request
 import requests
 
-app = Flask(__name__)
+app = Flask(name)
 
 BOT_TOKEN = "1004988187:QrErRwdnhUaKHIXjFKGxQxMHe60WUrqeGnMQz3y6"
 
@@ -10,10 +10,7 @@ def webhook():
     if request.method == "GET":
         return "Bot is running.", 200
 
-@app.route(f"/{BOT_TOKEN}", methods=["POST"])
-def webhook():
     update = request.get_json()
-
     if "message" in update:
         chat_id = update["message"]["chat"]["id"]
         text = update["message"].get("text", "")
@@ -45,5 +42,5 @@ def send_message(chat_id, text, reply_markup=None):
         payload["reply_markup"] = reply_markup
     requests.post(url, json=payload)
 
-if __name__ == "__main__":
+if name == "main":
     app.run(host="0.0.0.0", port=8000)
