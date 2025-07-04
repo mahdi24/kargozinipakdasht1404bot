@@ -18,11 +18,11 @@ def webhook():
         chat_id = update["message"]["chat"]["id"]
         text = update["message"].get("text", "")
 
-        if text == "/start":
+     if text == "/start":
             send_message(chat_id, "به بازوی کارگزینی اداره آموزش و پرورش پاکدشت خوش آمدید")
         else:
             send_message(chat_id, "دستور نامشخص است.")
-print("deployed")
+
     return "ok", 200
 
 def send_message(chat_id, text):
@@ -30,5 +30,5 @@ def send_message(chat_id, text):
     payload = {"chat_id": chat_id, "text": text}
     requests.post(url, json=payload)
 
-if name == "main":
+  if name == "main":
     app.run(host="0.0.0.0", port=8000)
