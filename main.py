@@ -1,19 +1,22 @@
-
 from flask import Flask, request
 import requests
 
-app = Flask(__name__)
-
+app = Flask(name)
 BOT_TOKEN = "1004988187:QrErRwdnhUaKHIXjFKGxQxMHe60WUrqeGnMQz3y6"
 
-@app.route(f"/{BOT_TOKEN}", methods=["POST"])
+@app.route(f"/{BOT_TOKEN}", methods=["GET", "POST"])
 def webhook():
+    if request.method == "GET":
+        return "Bot is running.", 200
+
     update = request.get_json()
-    if "message" in update:
+    print("دریافت شد:", update)
+
+    if update and "message" in update:
         chat_id = update["message"]["chat"]["id"]
         text = update["message"].get("text", "")
 
-        if text == "/start":
+        if text == "/start" or text == "شروع" or text == "start":
             reply_markup = {
                 "keyboard": [
                     ["مرخصی", "بازنشستگی", "نقل و انتقالات"],
@@ -27,6 +30,9 @@ def webhook():
             send_message(chat_id, "به بازوی کارگزینی اداره آموزش و پرورش پاکدشت خوش آمدید", reply_markup)
         else:
             send_message(chat_id, "دستور نامشخص است.")
+    else:
+        print("پیام نامعتبر دریافت شد:", update)
+
     return "ok", 200
 
 def send_message(chat_id, text, reply_markup=None):
@@ -37,7 +43,9 @@ def send_message(chat_id, text, reply_markup=None):
     }
     if reply_markup:
         payload["reply_markup"] = reply_markup
-    requests.post(url, json=payload)
 
-if __name__ == "__main__":
+    response = requests.post(url, json=payload)
+    print("ارسال پیام:", response.status_code, response.text)
+
+if name == "main":
     app.run(host="0.0.0.0", port=8000)
