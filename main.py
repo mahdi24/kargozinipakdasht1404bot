@@ -12,9 +12,6 @@ def test():
 
     if "message" in update:
         chat_id = update["message"]["chat"]["id"]
-        text = update["message"].get("text",
-    if "message" in update:
-        chat_id = update["message"]["chat"]["id"]
         text = update["message"].get("text", "")
 
         if text == "/start":
