@@ -1,7 +1,7 @@
 from flask import Flask, request
 import requests
 
-app = Flask(name)
+app = Flask(__name__)
 BOT_TOKEN = "1004988187:QrErRwdnhUaKHIXjFKGxQxMHe60WUrqeGnMQz3y6"
 
 @app.route(f"/{BOT_TOKEN}", methods=["GET", "POST"])
@@ -47,5 +47,5 @@ def send_message(chat_id, text, reply_markup=None):
     response = requests.post(url, json=payload)
     print("ارسال پیام:", response.status_code, response.text)
 
-if name == "main":
+if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
