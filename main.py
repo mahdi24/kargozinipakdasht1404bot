@@ -2,8 +2,7 @@ from flask import Flask, request
 import requests
 
 BOT_TOKEN = "1004988187:F2UsGTol6UD4wRdE8KolcxNDll4kWt78aXAacke6"
-
-app = Flask(__name__)  # این باید قبل از @app.route باشه
+app = Flask(__name__)
 
 @app.route(f"/{BOT_TOKEN}", methods=["POST"])
 def webhook():
@@ -28,7 +27,6 @@ def webhook():
             send_message(chat_id, "به بازوی کارگزینی اداره آموزش و پرورش پاکدشت خوش آمدید", reply_markup)
         else:
             send_message(chat_id, "دستور نامشخص است.")
-
     return "ok", 200
 
 def send_message(chat_id, text, reply_markup=None):
