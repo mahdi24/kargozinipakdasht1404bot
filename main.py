@@ -53,12 +53,9 @@ def send_welcome(chat_id):
 def home():
     return "Bot is running"
 
-@app.route(f"/{1004988187:QrErRwdnhUaKHIXjFKGxQxMHe60WUrqeGnMQz3y6}", methods=["POST"])
+@app.route("/1004988187:QrErRwdnhUaKHIXjFKGxQxMHe60WUrqeGnMQz3y6", methods=["POST"])
 def webhook():
-    data = request.get_json()
-    if not data or "message" not in data:
-        return "no message", 200
-
+    return "ok", 200
     message = data["message"]
     chat_id = message["chat"]["id"]
     text = message.get("text", "")
