@@ -5,9 +5,10 @@ app = Flask(__name__)
 
 BOT_TOKEN = "1004988187:QrErRwdnhUaKHIXjFKGxQxMHe60WUrqeGnMQz3y6"
 
-@app.route("/")
-def home():
-    return "ربات فعال است ✅", 200
+@app.route(f"/{BOT_TOKEN}", methods=["GET", "POST"])
+def webhook():
+    if request.method == "GET":
+        return "Bot is running.", 200
 
 @app.route(f"/{BOT_TOKEN}", methods=["POST"])
 def webhook():
