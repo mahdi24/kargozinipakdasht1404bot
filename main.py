@@ -31,7 +31,7 @@ def webhook():
             send_message(chat_id, "دستور نامشخص است.")
 
     return "ok", 200
-
+print("📥 New message:", update)
 def send_message(chat_id, text, reply_markup=None):
     url = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
     payload = {
