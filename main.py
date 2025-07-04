@@ -71,4 +71,4 @@ def webhook():
         send_message(chat_id, "لطفاً از دکمه‌های موجود استفاده کنید.")
 
     return "ok", 200
-    print"bot is ready"
+    print("bot is ready")
