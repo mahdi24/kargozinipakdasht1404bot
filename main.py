@@ -17,16 +17,7 @@ def webhook():
         text = data["message"].get("text", "")
 
         if text == "/start":
-            reply_markup = {
-                "keyboard": [
-                    ["مرخصی", "بازنشستگی", "نقل و انتقالات"],
-                    ["طبقه شغلی", "رتبه شغلی", "بازخرید"],
-                    ["استعفا", "تخلفات", "گواهی اشتغال به کار"],
-                    ["انتصابات", "ارتباط با ما"]
-                ],
-                "resize_keyboard": True,
-                "one_time_keyboard": False
-            }
+    send_message(chat_id, "ربات آماده پاسخ‌دهی است.")
             send_message(chat_id, "به بازوی کارگزینی اداره آموزش و پرورش پاکدشت خوش آمدید", reply_markup)
         else:
             send_message(chat_id, "دستور نامشخص است.")
