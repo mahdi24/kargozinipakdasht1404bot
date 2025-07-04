@@ -8,11 +8,11 @@ BOT_TOKEN = "1004988187:F2UsGTol6UD4wRdE8KolcxNDll4kWt78aXAacke6"
 @app.route("/", methods=["POST"])
 def test():
     update = request.get_json()
-    print("تست دریافت شد:", update)
-    return "test ok", 200
-    update = request.get_json()
     print("پیام دریافت‌شده:", update)
 
+    if "message" in update:
+        chat_id = update["message"]["chat"]["id"]
+        text = update["message"].get("text",
     if "message" in update:
         chat_id = update["message"]["chat"]["id"]
         text = update["message"].get("text", "")
