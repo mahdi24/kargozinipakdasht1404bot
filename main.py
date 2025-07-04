@@ -1,13 +1,10 @@
 from flask import Flask, request
 import requests
 
-# توکن ربات بله
-BOT_TOKEN = "1004988187:F2UsGTol6UD4wRdE8KolcxNDll4kWt78aXAacke6"
-
-# ساخت اپلیکیشن Flask
 app = Flask(__name__)
 
-# مسیری که بله پیام‌ها رو POST می‌کنه
+BOT_TOKEN = "1004988187:F2UsGTol6UD4wRdE8KolcxNDll4kWt78aXAacke6"
+
 @app.route(f"/{BOT_TOKEN}", methods=["POST"])
 def webhook():
     update = request.get_json()
@@ -34,7 +31,6 @@ def webhook():
 
     return "ok", 200
 
-# تابع ارسال پیام به کاربر
 def send_message(chat_id, text, reply_markup=None):
     url = f"https://ble.ir/api/{BOT_TOKEN}/sendMessage"
     payload = {
@@ -45,4 +41,7 @@ def send_message(chat_id, text, reply_markup=None):
         payload["reply_markup"] = reply_markup
 
     response = requests.post(url, json=payload)
-    print("
+    print("پاسخ بله:", response.status_code, response.text)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)
