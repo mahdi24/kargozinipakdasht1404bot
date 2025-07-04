@@ -22,7 +22,7 @@ def webhook():
             send_message(chat_id, "به بازوی کارگزینی اداره آموزش و پرورش پاکدشت خوش آمدید")
         else:
             send_message(chat_id, "دستور نامشخص است.")
-
+print("deployed")
     return "ok", 200
 
 def send_message(chat_id, text):
