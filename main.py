@@ -27,6 +27,7 @@ def webhook():
             send_message(chat_id, "به بازوی کارگزینی اداره آموزش و پرورش پاکدشت خوش آمدید", reply_markup)
         else:
             send_message(chat_id, "دستور نامشخص است.")
+
     return "ok", 200
 
 def send_message(chat_id, text, reply_markup=None):
@@ -37,6 +38,7 @@ def send_message(chat_id, text, reply_markup=None):
     }
     if reply_markup:
         payload["reply_markup"] = reply_markup
+
     response = requests.post(url, json=payload)
     print("پاسخ بله:", response.status_code, response.text)
 
