@@ -3,8 +3,8 @@ import requests
 
 app = Flask(__name__)
 
-BOT_TOKEN = "توکن جدید رباتت رو اینجا بذار"
-API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
+BOT_TOKEN = "1004988187:F2UsGTol6UD4wRdE8KolcxNDll4kWt78aXAacke6"
+API_URL = f"https://ble.ir/api/bot{1004988187:F2UsGTol6UD4wRdE8KolcxNDll4kWt78aXAacke6}/sendMessage"
 
 menu_buttons = [
     ["مرخصی", "بازنشستگی"],
