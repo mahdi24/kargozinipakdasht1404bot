@@ -1,10 +1,11 @@
 from flask import Flask, request
 import requests
+import os
 
 app = Flask(__name__)
 
-BOT_TOKEN = "1004988187:F2UsGTol6UD4wRdE8KolcxNDll4kWt78aXAacke6"
-API_URL = f"https://ble.ir/api/bot{1004988187:F2UsGTol6UD4wRdE8KolcxNDll4kWt78aXAacke6}/sendMessage"
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
 
 menu_buttons = [
     ["مرخصی", "بازنشستگی"],
