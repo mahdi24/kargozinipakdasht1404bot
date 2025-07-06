@@ -1,9 +1,11 @@
 from flask import Flask, request
 import requests
+import os
 
 app = Flask(__name__)
 
-BOT_TOKEN = "1004988187:F2UsGTol6UD4wRdE8KolcxNDll4kWt78aXAacke6"
+# توکن رو از متغیر محیطی Railway بخون
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
 
 menu_buttons = [["مرخصی", "بازنشستگی"], ["نقل و انتقالات", "طبقه شغلی"], ["ارتباط با ما"]]
@@ -45,6 +47,5 @@ def webhook():
         send_message(chat_id, "لطفاً از دکمه‌ها استفاده کنید.")
     return "ok", 200
 
-# ✅ این دو خط رو اضافه کن
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
