@@ -44,3 +44,7 @@ def webhook():
     else:
         send_message(chat_id, "لطفاً از دکمه‌ها استفاده کنید.")
     return "ok", 200
+
+# ✅ این دو خط رو اضافه کن
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)
