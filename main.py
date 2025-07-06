@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-BOT_TOKEN = "1004988187:F2UsGTol6UD4wRdE8KolcxNDll4kWt78aXAacke6"
+BOT_TOKEN = "1f8289b8-99a8-4547-9a25-9c4c866f8c66"
 API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
 
 menu_buttons = [["مرخصی", "بازنشستگی"], ["نقل و انتقالات", "طبقه شغلی"], ["ارتباط با ما"]]
