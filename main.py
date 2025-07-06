@@ -3,22 +3,29 @@ import requests
 
 app = Flask(__name__)
 
-BOT_TOKEN = "توکن_جدید_اینجا"
+# 🔐 توکن ربات را اینجا وارد کن
+BOT_TOKEN = "1004988187:F2UsGTol6UD4wRdE8KolcxNDll4kWt78aXAacke6"
+
+# 🛣 مسیر مخصوص وب‌هوک
 WEBHOOK_PATH = f"/{BOT_TOKEN}"
+
+@app.route("/", methods=["GET"])
+def home():
+    return "ربات تلگرام فعال است", 200
 
 @app.route(WEBHOOK_PATH, methods=["POST"])
 def webhook():
     update = request.get_json()
-    print("پیام دریافت‌شده:", update)
+    print("📩 پیام دریافت‌شده:", update)
 
     if "message" in update:
         chat_id = update["message"]["chat"]["id"]
-        text = update["message"]["text"]
+        text = update["message"].get("text", "")
 
-        reply = f"شما گفتید: {text}"
-        send_message(chat_id, reply)
+        # پاسخ ساده
+        send_message(chat_id, f"شما گفتید: {text}")
 
-    return "ok", 200
+    return "OK", 200
 
 def send_message(chat_id, text):
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
@@ -26,4 +33,5 @@ def send_message(chat_id, text):
     requests.post(url, json=payload)
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0", port=8000)
+    # پورت 8000 طبق استاندارد Railway
+    app.run(host="0.0.0.0", port=8000)
