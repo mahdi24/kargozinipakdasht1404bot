@@ -3,31 +3,27 @@ import requests
 
 app = Flask(__name__)
 
-# توکن ربات شما
-BOT_TOKEN = "1004988187:F2UsGTol6UD4wRdE8KolcxNDll4kWt78aXAacke6"
+BOT_TOKEN = "توکن_جدید_اینجا"
+WEBHOOK_PATH = f"/{BOT_TOKEN}"
 
-@app.route(f"/{BOT_TOKEN}", methods=["POST"])
+@app.route(WEBHOOK_PATH, methods=["POST"])
 def webhook():
     update = request.get_json()
     print("پیام دریافت‌شده:", update)
 
     if "message" in update:
         chat_id = update["message"]["chat"]["id"]
-        text = update["message"].get("text", "")
+        text = update["message"]["text"]
 
-        # پاسخ ساده به پیام دریافتی
-        response_text = "سلام! پیام شما دریافت شد ✅"
+        reply = f"شما گفتید: {text}"
+        send_message(chat_id, reply)
 
-        requests.post(
-            f"https://ble.shad.ir/api/bot{BOT_TOKEN}/sendMessage",
-            json={"chat_id": chat_id, "text": response_text}
-        )
+    return "ok", 200
 
-    return "ok"
-
-@app.route("/", methods=["GET"])
-def index():
-    return "ربات فعال است ✅"
+def send_message(chat_id, text):
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    payload = {"chat_id": chat_id, "text": text}
+    requests.post(url, json=payload)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+    app.run(debug=False, host="0.0.0.0", port=8000)
