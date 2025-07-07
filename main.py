@@ -3,9 +3,10 @@ import requests
 import os
 
 app = Flask(__name__)
-@app.route("/webhook", methods=["POST"])
-BOT_TOKEN = os.getenv("BOT_TOKEN")  # ✅ خواندن از متغیر Railway
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")
 API_URL = f"https://bot.bale.ai/bot{BOT_TOKEN}/sendMessage"
+
 menu_buttons = [["مرخصی", "بازنشستگی"], ["نقل و انتقالات", "طبقه شغلی"], ["ارتباط با ما"]]
 menu_responses = {
     "مرخصی": "نوع مرخصی خود را مشخص کنید.",
@@ -29,10 +30,10 @@ def send_welcome(chat_id):
 def home():
     return "Bot is running"
 
-@app.route(f"/{BOT_TOKEN}", methods=["POST"])
+@app.route("/webhook", methods=["POST"])
 def webhook():
     data = request.get_json()
-    print("دریافت شد:", data)
+    print("📩 پیام دریافتی:", data)
     if not data or "message" not in data:
         return "no message", 200
     message = data["message"]
