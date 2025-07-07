@@ -5,8 +5,7 @@ import os
 app = Flask(__name__)
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")  # ✅ خواندن از متغیر Railway
-API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
-
+API_URL = f"https://bot.bale.ai/bot{BOT_TOKEN}/sendMessage"
 menu_buttons = [["مرخصی", "بازنشستگی"], ["نقل و انتقالات", "طبقه شغلی"], ["ارتباط با ما"]]
 menu_responses = {
     "مرخصی": "نوع مرخصی خود را مشخص کنید.",
