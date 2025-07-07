@@ -33,6 +33,7 @@ def home():
 @app.route(f"/{BOT_TOKEN}", methods=["POST"])
 def webhook():
     data = request.get_json()
+    print("دریافت شد:", data)
     if not data or "message" not in data:
         return "no message", 200
     message = data["message"]
