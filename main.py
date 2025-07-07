@@ -3,7 +3,7 @@ import requests
 import os
 
 app = Flask(__name__)
-
+@app.route("/webhook", methods=["POST"])
 BOT_TOKEN = os.getenv("BOT_TOKEN")  # ✅ خواندن از متغیر Railway
 API_URL = f"https://bot.bale.ai/bot{BOT_TOKEN}/sendMessage"
 menu_buttons = [["مرخصی", "بازنشستگی"], ["نقل و انتقالات", "طبقه شغلی"], ["ارتباط با ما"]]
