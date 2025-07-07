@@ -4,8 +4,7 @@ import os
 
 app = Flask(__name__)
 
-# توکن رو از متغیر محیطی Railway بخون
-BOT_TOKEN = os.getenv("1004988187:F2UsGTol6UD4wRdE8KolcxNDll4kWt78aXAacke6")
+BOT_TOKEN = os.getenv("BOT_TOKEN")  # ✅ خواندن از متغیر Railway
 API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
 
 menu_buttons = [["مرخصی", "بازنشستگی"], ["نقل و انتقالات", "طبقه شغلی"], ["ارتباط با ما"]]
