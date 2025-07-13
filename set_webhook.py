@@ -22,3 +22,4 @@ def send_test_message(chat_id):
     print("📨 نتیجه پیام تست:", response.json())
 
 if __name__ == "__main__":
+send_test_message(chat_id='123456789')
