@@ -2,7 +2,7 @@ import requests
 import os
 
 # 📦 بارگذاری اطلاعات از متغیرهای محیطی
-BOT_TOKEN = os.getenv('BOT_TOKEN')
+BOT_TOKEN = os.getenv('1004988187:VBy1abA8GUcKAUOFPhd7HvH5CNxrfMZyttWqdNDX')
 DOMAIN_URL = os.getenv('DOMAIN_URL')  # مثل https://your-app-name.onrender.com
 
 WEBHOOK_URL = f'{DOMAIN_URL}/webhook'
