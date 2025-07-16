@@ -3,7 +3,12 @@ import requests
 import os
 
 app = Flask(name)
+import os
+from dotenv import load_dotenv
 
+load_dotenv()  # خواندن فایل .env
+
+BOT_TOKEN = os.getenv(1004988187:VBy1abA8GUcKAUOFPhd7HvH5CNxrfMZyttWqdNDX)
 import os
 print(os.getenv('LIARA_URL', 'my-python-app'), flush=True)
 API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
