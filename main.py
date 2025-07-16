@@ -1,16 +1,14 @@
 from flask import Flask, request
 import requests
 import os
-
-app = Flask(name)
-import os
 from dotenv import load_dotenv
 
-load_dotenv()  # خواندن فایل .env
+# بارگذاری متغیرهای محیطی از .env
+load_dotenv()
 
-BOT_TOKEN = os.getenv(1004988187:VBy1abA8GUcKAUOFPhd7HvH5CNxrfMZyttWqdNDX)
-import os
-print(os.getenv('LIARA_URL', 'my-python-app'), flush=True)
+app = Flask(__name__)
+
+BOT_TOKEN = os.getenv("BOT_TOKEN")  # ✅ استفاده از نام متغیر درست
 API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
 
 menu_buttons = [["مرخصی", "بازنشستگی"], ["نقل و انتقالات", "طبقه شغلی"], ["ارتباط با ما"]]
@@ -52,5 +50,5 @@ def webhook():
         send_message(chat_id, "لطفاً از دکمه‌ها استفاده کنید.")
     return "ok", 200
 
-if name == "main":
+if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
