@@ -4,7 +4,8 @@ import os
 
 app = Flask(name)
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+import os
+print(os.getenv('LIARA_URL', 'my-python-app'), flush=True)
 API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
 
 menu_buttons = [["مرخصی", "بازنشستگی"], ["نقل و انتقالات", "طبقه شغلی"], ["ارتباط با ما"]]
