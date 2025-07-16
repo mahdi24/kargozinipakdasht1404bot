@@ -2,10 +2,10 @@ from flask import Flask, request
 import requests
 import os
 
-app = Flask(__name__)
+app = Flask(name)
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-API_URL = f"https://bot.bale.ai/bot{BOT_TOKEN}/sendMessage"
+API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
 
 menu_buttons = [["مرخصی", "بازنشستگی"], ["نقل و انتقالات", "طبقه شغلی"], ["ارتباط با ما"]]
 menu_responses = {
@@ -30,10 +30,9 @@ def send_welcome(chat_id):
 def home():
     return "Bot is running"
 
-@app.route("/webhook", methods=["POST"])
+@app.route(f"/{BOT_TOKEN}", methods=["POST"])
 def webhook():
     data = request.get_json()
-    print("📩 پیام دریافتی:", data)
     if not data or "message" not in data:
         return "no message", 200
     message = data["message"]
@@ -47,5 +46,5 @@ def webhook():
         send_message(chat_id, "لطفاً از دکمه‌ها استفاده کنید.")
     return "ok", 200
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+if name == "main":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
