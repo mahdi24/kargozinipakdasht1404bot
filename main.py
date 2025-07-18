@@ -1,61 +1,50 @@
 from flask import Flask, request
 import requests
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-
-BOT_TOKEN = os.getenv("BOT_TOKEN")  # توکن ربات
-API_URL = "https://tapi.bale.ai/bot" + BOT_TOKEN
 app = Flask(__name__)
 
+# اطلاعات توکن و URL
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+API_URL = f"https://tapi.bale.ai/bot{BOT_TOKEN}"
 
-def send_message(chat_id, text, buttons=None):
-    payload = {
-        "chat_id": chat_id,
-        "text": text,
-        "reply_markup": {
-            "inline_keyboard": buttons or []
-        }
-    }
-    response = requests.post(f"{API_URL}/sendMessage", json=payload)
-    print("Send message response:", response.text)
-
-
-@app.route("/", methods=["POST"])
+@app.route('/', methods=["POST"])
 def webhook():
-    data = request.get_json()
-    print("Update received:", data)
+    data = request.json
 
     if "message" in data:
         chat_id = data["message"]["chat"]["id"]
         text = data["message"].get("text", "")
 
         if text == "/start":
-            buttons = [
-                [{"text": "📄 درباره ما", "callback_data": "about"}],
-                [{"text": "🗓 تماس با ما", "callback_data": "contact"}],
-            ]
-            send_message(chat_id, "به ربات خوش آمدید! یکی از گزینه‌ها را انتخاب کنید:", buttons)
-
+            send_message(chat_id, "به ربات خوش آمدید!", [
+                [{"text": "💼 اطلاعات کارگزینی", "callback_data": "info"}],
+                [{"text": "📅 تقویم آموزشی", "callback_data": "calendar"}],
+                [{"text": "📞 تماس با ما", "url": "https://example.com/contact"}]
+            ])
+    
     elif "callback_query" in data:
         query = data["callback_query"]
         chat_id = query["message"]["chat"]["id"]
-        data_text = query["data"]
+        data_id = query["data"]
 
-        if data_text == "about":
-            send_message(chat_id, "ما ربات رسمی کارگزینی اداره آموزش‌وپرورش پاکدشت هستیم.")
+        if data_id == "info":
+            send_message(chat_id, "🔍 اطلاعات کامل کارگزینی را اینجا مشاهده کنید.")
+        elif data_id == "calendar":
+            send_message(chat_id, "📅 تقویم آموزشی ترم جدید به زودی بارگذاری خواهد شد.")
 
-        elif data_text == "contact":
-            send_message(chat_id, "برای تماس با ما به شماره ۰۹۱۲xxxxxxx پیام دهید.")
+    return "ok"
 
-    return "ok", 200
-
-
-@app.route("/", methods=["GET"])
-def index():
-    return "ربات فعال است", 200
-
+def send_message(chat_id, text, buttons=None):
+    payload = {
+        "chat_id": chat_id,
+        "text": text,
+        "reply_markup": {
+            "inline_keyboard": buttons
+        } if buttons else None
+    }
+    headers = {'Content-Type': 'application/json'}
+    requests.post(f"{API_URL}/sendMessage", json=payload, headers=headers)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+    app.run()
