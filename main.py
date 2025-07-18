@@ -6,6 +6,31 @@ app = Flask(__name__)
 
 BOT_TOKEN = "1004988187:QrErRwdnhUaKHIXjFKGxQxMHe60WUrqeGnMQz3y6"
 API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
+@app.route("/", methods=["POST"])
+def webhook():
+    update = request.get_json()
+
+    if "message" in update:
+        chat_id = update["message"]["chat"]["id"]
+        text = update["message"].get("text", "")
+
+        if text == "/start":
+            send_welcome(chat_id)
+
+    return {"ok": True}
+
+def send_welcome(chat_id):
+    data = {
+        "chat_id": chat_id,
+        "text": "به ربات کارگزینی خوش آمدید 🌟\nلطفاً یکی از گزینه‌ها را انتخاب کنید:",
+        "reply_markup": {
+            "inline_keyboard": [
+                [{"text": "📝 فرم ثبت‌نام", "url": "https://example.com/form"}],
+                [{"text": "📞 تماس با ما", "callback_data": "contact"}]
+            ]
+        }
+    }
+    requests.post(f"{API_URL}/sendMessage", json=data)
 
 menu_buttons = [
     ["مرخصی", "بازنشستگی"],
