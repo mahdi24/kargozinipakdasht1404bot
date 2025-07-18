@@ -3,7 +3,10 @@ from flask import Flask, request
 import requests
 
 app = Flask(__name__)
-
+@app.route("/", methods=["POST"])
+def webhook():
+    update = request.get_json()
+    # کدی برای پردازش پیام دریافتی
 BOT_TOKEN = "1004988187:QrErRwdnhUaKHIXjFKGxQxMHe60WUrqeGnMQz3y6"
 API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
 
