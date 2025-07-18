@@ -3,48 +3,46 @@ import requests
 import os
 
 app = Flask(__name__)
-
-# اطلاعات توکن و URL
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 API_URL = f"https://tapi.bale.ai/bot{BOT_TOKEN}"
 
-@app.route('/', methods=["POST"])
+@app.route("/")
+def home():
+    return "OK", 200
+
+@app.route("/webhook", methods=["POST"])
 def webhook():
-    data = request.json
+    data = request.get_json()
+    print("دریافت شد:", data)
 
-    if "message" in data:
-        chat_id = data["message"]["chat"]["id"]
-        text = data["message"].get("text", "")
+    if not data or "message" not in data:
+        return "no message", 200
 
-        if text == "/start":
-            send_message(chat_id, "به ربات خوش آمدید!", [
-                [{"text": "💼 اطلاعات کارگزینی", "callback_data": "info"}],
-                [{"text": "📅 تقویم آموزشی", "callback_data": "calendar"}],
-                [{"text": "📞 تماس با ما", "url": "https://example.com/contact"}]
-            ])
-    
-    elif "callback_query" in data:
-        query = data["callback_query"]
-        chat_id = query["message"]["chat"]["id"]
-        data_id = query["data"]
+    message = data["message"]
+    chat_id = message["chat"]["id"]
+    text = message.get("text", "")
 
-        if data_id == "info":
-            send_message(chat_id, "🔍 اطلاعات کامل کارگزینی را اینجا مشاهده کنید.")
-        elif data_id == "calendar":
-            send_message(chat_id, "📅 تقویم آموزشی ترم جدید به زودی بارگذاری خواهد شد.")
+    if text == "/start":
+        send_message(chat_id, "سلام! به ربات خوش اومدی 🌟", buttons=True)
 
-    return "ok"
+    return "ok", 200
 
-def send_message(chat_id, text, buttons=None):
+def send_message(chat_id, text, buttons=False):
     payload = {
         "chat_id": chat_id,
         "text": text,
-        "reply_markup": {
-            "inline_keyboard": buttons
-        } if buttons else None
+        "parse_mode": "HTML"
     }
-    headers = {'Content-Type': 'application/json'}
-    requests.post(f"{API_URL}/sendMessage", json=payload, headers=headers)
+
+    if buttons:
+        payload["reply_markup"] = {
+            "inline_keyboard": [
+                [{"text": "دکمه ۱", "callback_data": "btn1"}],
+                [{"text": "دکمه ۲", "callback_data": "btn2"}]
+            ]
+        }
+
+    requests.post(f"{API_URL}/sendMessage", json=payload)
 
 if __name__ == "__main__":
     app.run()
