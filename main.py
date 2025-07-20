@@ -1,28 +1,52 @@
-📁 main.py
+from flask import Flask, request
+import requests
+import os
 
-import os from flask import Flask, request import requests from dotenv import load_dotenv
+app = Flask(__name__)
 
-بارگذاری متغیرهای محیطی از فایل .env
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+API_URL = f"https://tapi.bale.ai/bot{BOT_TOKEN}"
 
-load_dotenv()
 
-app = Flask(name)
+@app.route(f"/{BOT_TOKEN}", methods=["POST"])
+def webhook():
+    data = request.get_json()
+    if not data or "message" not in data:
+        return "ok"
 
-دریافت توکن از متغیر محیطی
+    chat_id = data["message"]["chat"]["id"]
+    text = data["message"].get("text", "")
 
-BOT_TOKEN = os.getenv("BOT_TOKEN") API_URL = f"https://ble.ir/api/bot{BOT_TOKEN}/sendMessage"
+    if text == "/start":
+        reply_markup = {
+            "inline_keyboard": [
+                [{"text": "📄 فرم ثبت‌نام", "url": "https://example.com/form"}],
+                [{"text": "📆 برنامه هفتگی", "url": "https://example.com/schedule"}],
+                [{"text": "📝 درخواست مرخصی", "url": "https://example.com/leave"}],
+                [{"text": "📚 منابع آموزشی", "url": "https://example.com/resources"}],
+                [{"text": "📢 اطلاعیه‌ها", "url": "https://example.com/news"}],
+                [{"text": "👨‍🏫 لیست مدرسان", "url": "https://example.com/teachers"}],
+                [{"text": "🧑‍💼 تماس با پشتیبانی", "url": "https://example.com/support"}],
+                [{"text": "📌 آدرس اداره", "url": "https://maps.google.com"}],
+                [{"text": "🧾 وضعیت حضور", "url": "https://example.com/attendance"}],
+                [{"text": "🔄 بروزرسانی اطلاعات", "url": "https://example.com/update"}],
+                [{"text": "❓ سوالات متداول", "url": "https://example.com/faq"}]
+            ]
+        }
 
-دکمه‌های منوی اصلی
+        requests.post(f"{API_URL}/sendMessage", json={
+            "chat_id": chat_id,
+            "text": "👋 خوش آمدید!\nاز دکمه‌های زیر استفاده کنید:",
+            "reply_markup": reply_markup
+        })
 
-menu_buttons = [ ["مرخصی", "بازنشستگی"], ["نقل و انتقالات", "طبقه شغلی"], ["رتبه شغلی", "بازخرید"], ["استعفا", "تخلفات"], ["گواهی اشتغال به کار", "انتصابات"], ["ارتباط با ما"] ]
+    return "ok"
 
-menu_responses = { "مرخصی": "لطفاً نوع مرخصی خود را مشخص کرده و فرم مربوطه را ارسال نمایید.", "بازنشستگی": "جهت امور بازنشستگی با بخش منابع انسانی تماس بگیرید.", "نقل و انتقالات": "برای نقل و انتقالات، فرم شماره ۲ را تکمیل نمایید.", "طبقه شغلی": "درخواست بررسی طبقه شغلی را به کارگزینی ارسال کنید.", "رتبه شغلی": "اطلاعات مربوط به رتبه شغلی به‌زودی اعلام می‌شود.", "بازخرید": "برای بازخرید خدمت، فرم رسمی درخواست را تکمیل نمایید.", "استعفا": "به زودی بارگذاری خواهد شد.", "تخلفات": "به زودی بارگذاری خواهد شد.", "گواهی اشتغال به کار": "به زودی بارگذاری خواهد شد.", "انتصابات": "تغییرات انتصابات در سامانه ثبت می‌شود.", "ارتباط با ما": "ارتباط با مسئول کارگزینی: @Amir1068\nارتباط با مدیر ربات: @teacher141072" }
 
-def send_message(chat_id, text, reply_markup=None): data = {"chat_id": chat_id, "text": text} if reply_markup: data["reply_markup"] = reply_markup requests.post(API_URL, json=data)
+@app.route("/", methods=["GET"])
+def index():
+    return "ربات بله فعال است."
 
-def send_welcome(chat_id): reply_markup = {"keyboard": menu_buttons, "resize_keyboard": True} welcome_text = "به بازوی کارگزینی اداره آموزش و پرورش پاکدشت خوش آمدید.\nلطفاً یکی از گزینه‌ها را انتخاب کنید:" send_message(chat_id, welcome_text, reply_markup)
 
-@app.route("/") def home(): return "Bot is running."
-
-@app.route(f"/{BOT_TOKEN}", methods=["POST"]) def
-
+if __name__ == "__main__":
+    app.run(debug=True)
