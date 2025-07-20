@@ -11,6 +11,7 @@ API_URL = f"https://tapi.bale.ai/bot{BOT_TOKEN}"
 @app.route(f"/{BOT_TOKEN}", methods=["POST"])
 def webhook():
     data = request.get_json()
+    print(f"📥 داده دریافتی از بله: {data}")
     if not data or "message" not in data:
         return "ok"
 
